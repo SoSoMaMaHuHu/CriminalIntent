@@ -99,7 +99,7 @@ public class CrimeListFragment extends Fragment {
         public void onClick(View view) {
             //Intent intent = new Intent(getContext(), CrimeActivity.class);
             crimeChangId = mCrime.getId();
-            Intent intent = CrimeActivity.newIntent(getActivity(), crimeChangId);
+            Intent intent = CrimePagerActivity.newIntent(getActivity(), crimeChangId);
             //startActivity(intent);
             startActivityForResult(intent,REQUEST_CRIME);
         }
