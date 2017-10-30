@@ -44,4 +44,7 @@ public class CrimeLab {
         return null;
     }
 
+    public int getCrimeIndex(Crime crime){
+        return mCrimes.indexOf(crime);
+    }
 }
