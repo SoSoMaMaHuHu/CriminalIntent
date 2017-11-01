@@ -37,6 +37,7 @@ public class CrimeListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "222222"+getActivity().toString()+container.toString());
+        // 加载recyclerView布局，并设置其布局管理器，最后设置adapter并加载数据显示出来。
         View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
         mCrimeRecyclerView = (RecyclerView)view.findViewById(R.id.crime_recycler_view);
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -48,6 +49,7 @@ public class CrimeListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        // 返回recyclerview时，数据可能已更改，所以recyclerview显示也要更新。
         updateUI();
     }
 
@@ -55,7 +57,7 @@ public class CrimeListFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_CRIME){
             if (data!=null){
-                mposition = CrimeFragment.getCrimeIndex(data);
+                mposition = CrimeFragment.getCrimeIndexFromIntent(data);
             }
         }
     }
@@ -97,10 +99,11 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            //Intent intent = new Intent(getContext(), CrimeActivity.class);
+
+            //将ID作为参数，存在Intent中，在新的Activity中再Intent中的ID，使得其知道点击了哪个Crime。
             crimeChangId = mCrime.getId();
             Intent intent = CrimePagerActivity.newIntent(getActivity(), crimeChangId);
-            //startActivity(intent);
+            //当返回时，我们可以在onResume方法中进行UI的更新。
             startActivityForResult(intent,REQUEST_CRIME);
         }
     }
@@ -111,6 +114,7 @@ public class CrimeListFragment extends Fragment {
             mCrimes = crimes;
         }
 
+        // 创建ViewHolder
         @Override
         public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             //parent: android.support.v7.widget.RecyclerView
@@ -119,6 +123,7 @@ public class CrimeListFragment extends Fragment {
             return new CrimeHolder(layoutInflater, parent);
         }
 
+        //将数据与ViewHolder绑定
         @Override
         public void onBindViewHolder(CrimeHolder holder, int position) {
             Log.d(TAG, "onBindViewHolder dbgcount: "+dbgcount++);

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +30,7 @@ public class CrimePagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crime_pager);
 
+        //点击的Crime的ID
         UUID crimeId = (UUID)getIntent().getSerializableExtra(EXTRA_CRIME_ID);
 
         mViewPager = (ViewPager)findViewById(R.id.activity_crime_pager_view_pager);
@@ -38,6 +40,7 @@ public class CrimePagerActivity extends AppCompatActivity {
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
             @Override
             public Fragment getItem(int position) {
+                Log.d("FMStatePagerAdapter","position "+position);
                 Crime crime = mCrimes.get(position);
                 return CrimeFragment.newInstance(crime.getId());
             }
