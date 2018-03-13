@@ -47,9 +47,12 @@ public class CrimeFragment extends Fragment{
         fragment.setArguments(args);
         return fragment;
     }
+
+    /*
     public static int getCrimeIndexFromIntent(Intent intent){
         return intent.getIntExtra(ARG_CRIME_ID,0);
     }
+
     public void returnResult(){
         Intent data = new Intent();
 
@@ -57,7 +60,7 @@ public class CrimeFragment extends Fragment{
         data.putExtra(ARG_CRIME_ID, mCrimeLab.getCrimeIndex(mCrime));
         getActivity().setResult(Activity.RESULT_OK, data);
     }
-
+*/
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,7 +69,13 @@ public class CrimeFragment extends Fragment{
         UUID crimeId = (UUID)getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
 
-        returnResult();
+        //returnResult();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        CrimeLab.get(getActivity()).updateCrime(mCrime);
     }
 
     @Nullable
