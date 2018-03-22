@@ -37,11 +37,16 @@ public class CrimeListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
     private boolean mSubtitleVisible;
+    private Callbacks mCallbacks;
 
     private TextView mEmpty_textView;
 
     private UUID crimeChangId;
     private int mposition;
+
+    public interface Callbacks{
+        void onCrimeSelected(Crime crime);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

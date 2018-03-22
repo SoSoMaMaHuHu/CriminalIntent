@@ -11,6 +11,7 @@ import com.example.administrator.criminalintent_github.database.CrimeDbSchema.Cr
 import com.example.administrator.criminalintent_github.database.CrimeBaseHelper;
 import com.example.administrator.criminalintent_github.database.CrimeDbSchema;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -99,6 +100,11 @@ public class CrimeLab {
         //return mCrimes.indexOf(crime);
         //return 0;
     //}
+
+    public File getPhotoFile(Crime crime){
+        File fileDir = mContext.getFilesDir();
+        return new File(fileDir, crime.getPhotoFilename());
+    }
 
     public void updateCrime(Crime crime){
         String uuidString = crime.getId().toString();

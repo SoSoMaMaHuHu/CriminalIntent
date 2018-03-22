@@ -29,6 +29,7 @@ public class CrimePagerActivity extends AppCompatActivity implements View.OnClic
         return intent;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
