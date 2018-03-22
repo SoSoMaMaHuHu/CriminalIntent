@@ -1,5 +1,6 @@
 package com.example.administrator.criminalintent_github;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.MainThread;
@@ -46,6 +47,12 @@ public class CrimeListFragment extends Fragment {
 
     public interface Callbacks{
         void onCrimeSelected(Crime crime);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallbacks = ( Callbacks) context;
     }
 
     @Override
@@ -106,8 +113,10 @@ public class CrimeListFragment extends Fragment {
             case R.id.new_crime:
                 Crime crime = new Crime();
                 CrimeLab.get(getActivity()).addCrime(crime);
-                Intent intent = CrimePagerActivity.newIntent(getActivity(),crime.getId());
-                startActivity(intent);
+                //Intent intent = CrimePagerActivity.newIntent(getActivity(),crime.getId());
+                //startActivity(intent);
+                updateUI();
+                mCallbacks.onCrimeSelected(crime);
                 return true;
             case R.id.show_subtitle:
                 mSubtitleVisible = !mSubtitleVisible;
@@ -141,7 +150,7 @@ public class CrimeListFragment extends Fragment {
         }
     }
 
-    private void updateUI(){
+    public void updateUI(){
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
 
@@ -189,9 +198,15 @@ public class CrimeListFragment extends Fragment {
 
             //将ID作为参数，存在Intent中，在新的Activity中再Intent中的ID，使得其知道点击了哪个Crime。
             crimeChangId = mCrime.getId();
-            Intent intent = CrimePagerActivity.newIntent(getActivity(), crimeChangId);
+            //Intent intent = CrimePagerActivity.newIntent(getActivity(), crimeChangId);
             //当返回时，我们可以在onResume方法中进行UI的更新。
-            startActivityForResult(intent,REQUEST_CRIME);
+            //startActivityForResult(intent,REQUEST_CRIME);
+
+            /*
+            * 对于平板设备，为了使得Fragement独立开来，
+            * 添加CrimeFragment给CrimeListActicity的操作将由托管activity去处理。
+            * */
+            mCallbacks.onCrimeSelected(mCrime);
         }
     }
 
@@ -227,5 +242,11 @@ public class CrimeListFragment extends Fragment {
         public void setmCrimes(List<Crime> crimes){
             mCrimes = crimes;
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
     }
 }

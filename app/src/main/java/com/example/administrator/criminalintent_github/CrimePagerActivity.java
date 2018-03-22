@@ -15,13 +15,19 @@ import android.widget.Button;
 import java.util.List;
 import java.util.UUID;
 
-public class CrimePagerActivity extends AppCompatActivity implements View.OnClickListener{
+public class CrimePagerActivity extends AppCompatActivity
+        implements View.OnClickListener , CrimeFragment.Callbacks{
     private static final String EXTRA_CRIME_ID = "com.example.administrator.criminalintent_github.crime_id";
 
     private ViewPager mViewPager;
     private Button JumpFirst;
     private Button JumpLast;
     private List<Crime> mCrimes;
+
+    @Override
+    public void onCrimeUpdated(Crime crime) {
+
+    }
 
     public static Intent newIntent(Context packageContext, UUID crimeId){
         Intent intent = new Intent(packageContext, CrimePagerActivity.class);
@@ -111,6 +117,5 @@ public class CrimePagerActivity extends AppCompatActivity implements View.OnClic
             mViewPager.setCurrentItem(mCrimes.size()-1, false);
         }
     }
-
 
 }
